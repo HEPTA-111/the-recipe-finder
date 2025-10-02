@@ -1,6 +1,5 @@
 import Header from "./components/Header.jsx";
-import Search from "./components/Search.jsx";
-import Recipe from "./components/Recipe.jsx";
+import RecipeItem from "./components/RecipeItem.js";
 import Footer from "./components/Footer.jsx";
 
 function App() {
@@ -8,8 +7,7 @@ function App() {
   return (
     <>
     <Header />
-    <Search />
-    <Recipe />
+    <RecipeItem />
     <Footer />
 
     </>
