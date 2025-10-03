@@ -1,23 +1,32 @@
-export default function RecipeItem(){
+import defaultImage from '../assets/food1.jpeg';
 
- 
+interface RecipeItemProps {
+    title: string;
+    description: string;    
+    imageUrl: string | undefined;
+    onViewRecipe: () => void;
+    onAddToFavorites: () => void;
+}
 
-    return( 
-        <div className="recipe">
-            <ul className="recipe-list">
-                <li >Recipe 1</li>
-                <li>Recipe 2</li>
-                <li>Recipe 3</li>
-                <li>Recipe 4</li>
-                <li>Recipe 5</li>
-                <li>Recipe 6</li>
-                <li>Recipe 7</li>
-                <li>Recipe 8</li>
-                <li>Recipe 9</li>
-                <li>Recipe 10</li>
-            </ul>
+export default function RecipeItem(props: RecipeItemProps) {
+    const imageUrl = props.imageUrl || defaultImage;
 
-
+    return(
+        <div className="recipe-item">
+            <img 
+                src={imageUrl} 
+                alt="Recipe Image" 
+                className="recipe-item.iag"
+                onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null; 
+                    target.src = defaultImage;
+                }}
+            />
+            <h3 className="recipe-title">{props.title}</h3>
+            <p>{props.description}</p>
+            <button onClick={props.onViewRecipe}>View Recipe</button>
+            <button onClick={props.onAddToFavorites}>Add to Favorites</button>
         </div>
     );
 }
