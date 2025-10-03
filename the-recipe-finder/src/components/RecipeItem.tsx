@@ -12,6 +12,7 @@ export default function RecipeItem(props: RecipeItemProps) {
     const imageUrl = props.imageUrl || defaultImage;
 
     return(
+
         <div className="recipe-item">
             <img 
                 src={imageUrl} 
@@ -25,8 +26,8 @@ export default function RecipeItem(props: RecipeItemProps) {
             />
             <h3 className="recipe-title">{props.title}</h3>
             <p>{props.description}</p>
-            <button onClick={props.onViewRecipe}>View Recipe</button>
-            <button onClick={props.onAddToFavorites}>Add to Favorites</button>
+            <button className = 'btn'onClick={props.onViewRecipe}>View Recipe</button>
+            <button className='btn' onClick={props.onAddToFavorites}>Add to Favorites</button>
         </div>
     );
 }
