@@ -1,6 +1,7 @@
 import Header from "./components/Header.jsx";
 import RecipeItem from "./components/RecipeItem.js";
 import Footer from "./components/Footer.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 const recipeItems = [
   {
@@ -37,7 +38,7 @@ const recipeItems = [
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <Header />
       {/* FIX 2, 3, & 4: Correct map syntax, use dynamic data, and add a 'key' prop */}
       {recipeItems.map((recipe) => (
@@ -51,7 +52,7 @@ function App() {
         />
       ))}
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
 

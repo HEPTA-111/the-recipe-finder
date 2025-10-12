@@ -4,8 +4,7 @@ export default function Header() {
             <div className="header-content">
                 <h1>The Recipe Finder</h1>
                 <div className="nav-links">
-                    <p>Favourites ❤️</p>
-                    <p>About</p>
+                    <p>Favourites</p>
                 </div>
                 <div className="search-bar">
                     <input type="text" className="search-input" placeholder="Search for recipes..." />
