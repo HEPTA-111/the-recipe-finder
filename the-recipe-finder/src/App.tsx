@@ -40,7 +40,6 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      {/* FIX 2, 3, & 4: Correct map syntax, use dynamic data, and add a 'key' prop */}
       {recipeItems.map((recipe) => (
         <RecipeItem
           key={recipe.title}
