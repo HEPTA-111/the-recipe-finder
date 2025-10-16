@@ -1,7 +1,6 @@
 import Header from "./components/Header.jsx";
 import RecipeItem from "./components/RecipeItem.js";
 import Footer from "./components/Footer.jsx";
-import { BrowserRouter } from "react-router-dom";
 
 const recipeItems = [
   {
@@ -29,7 +28,7 @@ const recipeItems = [
     description: "A perfectly grilled steak, juicy and full of flavor.",
     imageUrl: "../assets/food5.jpeg"
   },
-  {
+  { 
     title: "Pizza",
     description: "Classic homemade pizza with all your favorite toppings.",
     imageUrl: "../assets/food6.jpeg"
@@ -38,7 +37,7 @@ const recipeItems = [
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Header />
       {recipeItems.map((recipe) => (
         <RecipeItem
@@ -51,7 +50,8 @@ function App() {
         />
       ))}
       <Footer />
-    </BrowserRouter>
+    </>
+
   );
 }
 
