@@ -4,7 +4,13 @@ import Footer from "./components/Footer.tsx";
 import { Route,Routes} from "react-router-dom";
 import Favorites from "./components/Favorites.tsx"; 
 
-const recipeItems = [
+export interface Recipe {
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+const recipeItems: Recipe[] = [
   {
     title: "Salad",
     description: "A delicious sample recipe for a healthy meal option. Try it out!",
