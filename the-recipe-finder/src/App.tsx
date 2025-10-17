@@ -1,6 +1,6 @@
 import Header from "./components/Header.tsx";
 import RecipeItem from "./components/RecipeItem.tsx";
-import Footer from "./components/Footer.jsx";
+import Footer from "./components/Footer.tsx";
 import { Route,Routes} from "react-router-dom";
 import Favorites from "./components/Favorites.tsx"; 
 
@@ -13,27 +13,27 @@ const recipeItems = [
   {
     title: "Pasta",
     description: "A delightful pasta recipe with rich flavors and easy preparation.",
-    imageUrl: "../assets/food2.jpeg"
+    imageUrl: "../assets/food1.jpeg"
   },
   {
     title: "Dessert",
     description: "A sweet and indulgent dessert recipe to satisfy your cravings.",
-    imageUrl: "../assets/food3.jpeg"
+    imageUrl: "../assets/food1.jpeg"
   },
   {
     title: "Soup",
     description: "A warm and comforting soup, perfect for a chilly evening.",
-    imageUrl: "../assets/food4.jpeg"
+    imageUrl: "../assets/food1.jpeg"
   },
   {
     title: "Grilled Steak",
     description: "A perfectly grilled steak, juicy and full of flavor.",
-    imageUrl: "../assets/food5.jpeg"
+    imageUrl: "../assets/food1.jpeg"
   },
   {
     title: "Pizza",
     description: "Classic homemade pizza with all your favorite toppings.",
-    imageUrl: "../assets/food6.jpeg"
+    imageUrl: "../assets/food1.jpeg"
   }
 ];
 
