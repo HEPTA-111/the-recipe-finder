@@ -5,7 +5,7 @@ export default function Header() {
             <div className="header-content">
                 <h1>The Recipe Finder</h1>
                 <div className="nav-links">
-                    <Link to ="/Favorites">Favourites</Link>
+                    <Link to ="/favorites">Favourites</Link>
                 </div>
                 <div className="search-bar">
                     <input type="text" className="search-input" placeholder="Search for recipes..." />
