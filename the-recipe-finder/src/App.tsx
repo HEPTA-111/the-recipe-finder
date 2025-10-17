@@ -1,6 +1,8 @@
-import Header from "./components/Header.jsx";
-import RecipeItem from "./components/RecipeItem.js";
+import Header from "./components/Header.tsx";
+import RecipeItem from "./components/RecipeItem.tsx";
 import Footer from "./components/Footer.jsx";
+import { Route,Routes} from "react-router-dom";
+import Favorites from "./components/Favorites.tsx"; 
 
 const recipeItems = [
   {
@@ -28,7 +30,7 @@ const recipeItems = [
     description: "A perfectly grilled steak, juicy and full of flavor.",
     imageUrl: "../assets/food5.jpeg"
   },
-  { 
+  {
     title: "Pizza",
     description: "Classic homemade pizza with all your favorite toppings.",
     imageUrl: "../assets/food6.jpeg"
@@ -39,16 +41,25 @@ function App() {
   return (
     <>
       <Header />
-      {recipeItems.map((recipe) => (
-        <RecipeItem
-          key={recipe.title}
-          title={recipe.title}
-          description={recipe.description}
-          imageUrl={recipe.imageUrl}
-          onViewRecipe={() => console.log(`View ${recipe.title}`)}
-          onAddToFavorites={() => console.log(`Add ${recipe.title} to Favorites`)}
-        />
-      ))}
+      <Routes>
+      <Route path ="/favorites" element={<Favorites/>} />
+      <Route path="/" element={
+      <div className="recipe-list">
+      {
+        recipeItems.map((recipe) => (
+          <RecipeItem
+            key={recipe.title}
+            title={recipe.title}
+            description={recipe.description}
+            imageUrl={recipe.imageUrl}
+            onViewRecipe={() => console.log(`View ${recipe.title}`)}
+            onAddToFavorites={() => console.log(`Add ${recipe.title} to Favorites`)}
+          />
+        ))
+      }
+      </div>
+      } />
+      </Routes>
       <Footer />
     </>
 
