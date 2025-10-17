@@ -123,6 +123,12 @@ body {
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
+.nav-link {
+  text-decoration: none;
+  color: #28a745;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
 
 .search-bar {
   display: flex;
