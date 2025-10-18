@@ -3,7 +3,7 @@ export default function Header() {
     return (
         <header className="header">
             <div className="header-content">
-                <h1>The Recipe Finder</h1>
+                <h1>The Cook Book</h1>
                 <div className="nav-links">
                     <Link to ="/favorites" className="nav-link">Favourites</Link>
                 </div>

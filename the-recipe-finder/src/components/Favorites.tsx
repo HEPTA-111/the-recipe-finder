@@ -1,4 +1,4 @@
-import { Recipe } from "../types.ts";
+import type { Recipe } from "../types.ts";
 import RecipeItem from "./RecipeItem.tsx"; 
 
 

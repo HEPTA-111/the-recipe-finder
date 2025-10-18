@@ -1,4 +1,6 @@
-import { Recipe } from "../types.ts";
+import type { Recipe } from "../types.ts";
+import defaultImage from '../assets/food1.jpeg';
+
 interface RecipeItemProps {
     recipe: Recipe;
     title: string;
@@ -11,9 +13,11 @@ interface RecipeItemProps {
 }
 
 export default function RecipeItem(props: RecipeItemProps) {
+    const imageUrl = props.imageUrl || defaultImage;
 
     return(
         <div className="recipe-item">
+            <img src={imageUrl} alt={props.title} className="recipe-image" />
             <h3 className="recipe-title">{props.title}</h3>
             <p>{props.description}</p>
             <button className = 'btn' onClick={props.onViewRecipe}>View Recipe</button>

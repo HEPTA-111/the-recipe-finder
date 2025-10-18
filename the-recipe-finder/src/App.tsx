@@ -4,7 +4,7 @@ import Footer from "./components/Footer.tsx";
 import { Route, Routes } from "react-router-dom";
 import Favorites from "./components/Favorites.tsx";
 import { useState, useEffect } from "react";
-import { Recipe } from "./types.ts";
+import type { Recipe } from "./types.ts";
 
 const API_URL = "https://www.themealdb.com/api/json/v1/1/random.php";
 
