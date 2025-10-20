@@ -1,4 +1,4 @@
 # the-recipe-finder
 
 A simple React - Typescript bridge project.ff
-<img width="2330" height="3073" alt="image" src="https://github.com/user-attachments/assets/0eb0d68a-3bbb-42e3-a0fc-22f155cbc864" />
+<img width="936" height="1258" alt="image" src="https://github.com/user-attachments/assets/70782625-ee9d-482e-86b7-42989fe05840" />
