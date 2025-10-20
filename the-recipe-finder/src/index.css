@@ -193,3 +193,266 @@ body {
   margin-bottom: 40px;
 
 }
+
+/* --- 1. Search Bar Improvement (Accessibility/Layout) --- */
+/* Ensure the form element uses the search bar styles */
+.header-content form.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Fix margin issue on smaller screens */
+.search-bar {
+    margin: 0 auto 20px auto; 
+}
+
+
+/* --- 2. Visual Feedback for Favorites Button --- */
+/* Style for the button when a recipe is marked as a favorite (Remove button on Favorites page) */
+.btn.btn-favorited {
+    background-color: #dc3545; /* A strong red color for 'Remove' */
+    border: 1px solid #c82333;
+}
+
+.btn.btn-favorited:hover {
+    background-color: #c82333;
+}
+
+
+/* --- 3. Recipe Modal Styles (RecipeModal.tsx) --- */
+
+/* Backdrop: Full screen overlay with a blur effect */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black */
+    backdrop-filter: blur(5px);
+    z-index: 2000; /* Ensure it's above the header */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto; /* Allow scrolling if content is long */
+}
+
+/* Modal Content Box: The main pop-up container */
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 90%;
+    min-width: 300px;
+    width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: scale(1);
+    transition: transform 0.3s ease-out;
+    margin: 40px 0; /* Add margin for scrolling space */
+    position: relative;
+    text-align: center;
+}
+
+.modal-content h2 {
+    color: #28a745;
+    margin-top: 0;
+    font-size: 1.8em;
+}
+
+.modal-content img {
+    border-radius: 8px;
+    margin: 15px 0;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.modal-content p {
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Close button positioning within the modal */
+.modal-content .btn {
+    margin-top: 20px;
+    padding: 12px 25px;
+}
+
+/* Style for the Favorites Page container (to differentiate from the Home Page list) */
+.favorites-container {
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.favorites-container h2 {
+    color: #28a745;
+    margin-bottom: 25px;
+}
+
+/* Ensure recipe items fit correctly inside the favorites container */
+.favorites-container .recipe-item {
+    width: 100%;
+    max-width: 700px; /* Use the width defined in your existing CSS */
+    margin: 16px auto;
+    display: flex;
+    flex-direction: column; /* Stack elements inside recipe item */
+    align-items: center;
+}
+
+/* --- Global Responsiveness Adjustments --- */
+/* The recipe item width is too large for mobile; we'll fix it globally. */
+.recipe-item {
+    /* Use max-width for scaling, and width: 100% inside the parent container */
+    width: 100%;
+    max-width: 700px; /* Kept max-width based on your original value */
+}
+
+.recipe-list {
+    /* Set recipe-list to use the entire available width on all screens */
+    padding: 10px;
+}
+
+/* --- Media Query for Small Screens (Phones) --- */
+@media (max-width: 768px) {
+    
+    /* Make the body padding a little tighter */
+    body {
+        padding: 10px;
+    }
+
+    /* Stack items inside the header content if they were horizontal */
+    .header-content {
+        padding: 0 10px;
+    }
+
+    /* Make the recipe items fill the width but maintain a tighter layout */
+    .recipe-item {
+        margin: 10px auto;
+        padding: 10px;
+    }
+
+    .recipe-item-img {
+        width: 100%; /* Image can fill the full width of the item on mobile */
+        max-height: 200px;
+    }
+
+    /* Modal size on mobile */
+    .modal-content {
+        width: 95%;
+        margin: 20px 0;
+        padding: 15px;
+    }
+}
+
+/* --- Modal Instructions Formatting --- */
+
+/* Style for the container holding the raw instructions */
+.recipe-instructions {
+    text-align: left;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    max-height: 50vh; /* Limit height to prevent modal from getting too tall */
+    overflow-y: auto; /* Enable scrolling for long content */
+    line-height: 1.6;
+    white-space: pre-wrap; /* Essential for preserving formatting if we use newlines later */
+}
+
+.modal-content h3 {
+    color: #045a17;
+    margin-top: 15px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Style for the paragraph containing the instructions */
+.recipe-instructions p {
+    text-align: left;
+    margin: 0; /* Remove default paragraph margins */
+    color: #333;
+}
+
+/* --- Keyframe Definition for Bounce Effect --- */
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); } /* Grow on click */
+    100% { transform: scale(1); }
+}
+
+/* --- Favorites Button Feedback --- */
+
+/* Base style for favorited button (already defined, but cleaner here) */
+.btn.btn-favorited {
+    background-color: #dc3545; 
+    border-color: #c82333;
+    font-weight: bold;
+}
+
+/* Class applied briefly on click for visual feedback */
+.btn.btn-clicked {
+    animation: bounce 0.3s ease-in-out;
+}
+
+/* Toast/Message Container (for showing "Added to Favorites!" message) */
+/* You'll need to create a simple div with the class 'toast-message' in App.tsx */
+.toast-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0; /* Starts hidden */
+    transition: opacity 0.3s ease-out;
+    z-index: 3000;
+}
+
+/* Class to make the toast visible */  
+.toast-message.visible {
+    opacity: 1;
+}
+/* --- FIX 1: Recipe Item Width --- */
+/* Overrides the fixed 700px width for better scaling */
+.recipe-item {
+    width: 95%; /* Use a percentage of the container width */
+    max-width: 700px; /* Keep 700px as the maximum size */
+    margin: 16px auto; /* Center the item */
+}
+
+/* --- FIX 2: Recipe Image Scaling --- */
+/* Ensures the image will not exceed its parent container's width,
+   and will scale down smoothly on small screens. */
+.recipe-item-img {
+    /* REMOVED: width: 170px; */
+    max-width: 170px; /* Prevents the image from getting too big on large screens */
+    width: 100%; /* Ensures it scales down to 100% of its *parent's* available space */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Helps with scaling */
+}
+
+/* --- FIX 3: Modal Content Sizing --- */
+/* Ensures the modal content doesn't cause horizontal overflow on small screens */
+.modal-content {
+    width: 95%;
+    max-width: 600px;
+    margin: 20px auto; /* Adjusted margins */
+    box-sizing: border-box; /* Ensures padding is inside the width */
+}
+
+

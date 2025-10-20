@@ -8,9 +8,10 @@ interface RecipeItemProps {
     imageUrl: string | undefined;
     onViewRecipe: () => void;
     onAddToFavorites: (recipe: Recipe) => void;
-    
+    isFavorite: boolean;
     buttonText?: string; 
 }
+
 
 export default function RecipeItem(props: RecipeItemProps) {
     const imageUrl = props.imageUrl || defaultImage;
@@ -19,7 +20,6 @@ export default function RecipeItem(props: RecipeItemProps) {
         <div className="recipe-item">
             <img src={imageUrl} alt={props.title} className="recipe-image" />
             <h3 className="recipe-title">{props.title}</h3>
-            <p>{props.description}</p>
             <button className = 'btn' onClick={props.onViewRecipe}>View Recipe</button>
             <button className='btn' onClick={() => props.onAddToFavorites(props.recipe)}>
                 {props.buttonText || 'Add to Favorites'} 

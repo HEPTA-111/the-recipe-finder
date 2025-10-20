@@ -5,27 +5,28 @@ import { Route, Routes } from "react-router-dom";
 import Favorites from "./components/Favorites.tsx";
 import { useState, useEffect } from "react";
 import type { Recipe } from "./types.ts";
+import { RecipeModal } from "./components/RecipeModal.tsx";
+
 
 const API_URL = "https://www.themealdb.com/api/json/v1/1/random.php";
 
 function App() {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
-    const [favorites, setFavorites] = useState<Recipe[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [searchTerm, setSearchTerm] = useState<string>("");
+
 
     const fetchRandomRecipe = async () => {
         const NUM_RECIPES = 7;
         const fetchPromises = [];
         for (let i = 0; i < NUM_RECIPES; i++) {
-
             fetchPromises.push(fetch(API_URL));
         }
 
         try {
             const responses = await Promise.all(fetchPromises);
-
             const dataPromises = responses.map(response => response.json());
             const allData = await Promise.all(dataPromises);
 
@@ -74,32 +75,88 @@ function App() {
         setSelectedRecipe(null);
         setIsModalOpen(false);
     }
- 
+
+    const executeSearch = async () => {
+        if (!searchTerm.trim()) {
+            alert("Please enter a recipe name to search.");
+            return;
+        }
+
+        const SEARCH_URL = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`;
+
+        try {
+            const response = await fetch(SEARCH_URL);
+            const data = await response.json();
+
+            const rawMeals = data.meals || [];
+
+            const newRecipes: Recipe[] = rawMeals.map((meal: any) => {
+                return {
+                    title: meal.strMeal,
+                    description: meal.strInstructions.substring(0, 150) + '...',
+                    imageUrl: meal.strMealThumb,
+                    id: meal.idMeal
+                };
+            });
+
+            setRecipes(newRecipes);
+            if (rawMeals.length === 0) {
+                alert(`No recipes found for "${searchTerm}".`);
+            }
+
+        } catch (error) {
+            console.error("Error executing search:", error);
+            setRecipes([]);
+        }
+    };
+
+    const [favorites, setFavorites] = useState<Recipe[]>(() => {
+        const savedFavorites = localStorage.getItem('recipeFavorites');
+
+        if (savedFavorites) {
+            // Data exists: parse the string back to a Recipe[] array
+            return JSON.parse(savedFavorites);
+        }
+
+        // No data: return the default initial value
+        return [];
+    });
+
+    useEffect(() => {
+        // Save favorites to localStorage whenever it changes
+        localStorage.setItem('recipeFavorites', JSON.stringify(favorites));
+    }, [favorites]);
 
 
     return (
         <>
-            <Header />
+            <Header onSearchChange={setSearchTerm} onSearchSubmit={executeSearch} />
             <Routes>
-                <Route path="/favorites" element={<Favorites favoritesList={favorites} onToggleFavorite={toggleFavorite}/>} />
+                <Route path="/favorites" element={<Favorites favoritesList={favorites} onToggleFavorite={toggleFavorite} />} />
                 <Route path="/" element={
                     <div className="recipe-list">
-                        {recipes.map((recipe) => ( 
+                        {recipes.map((recipe) => (
                             <RecipeItem
-                                recipe={recipe} 
+                                recipe={recipe}
                                 key={recipe.title}
                                 title={recipe.title}
                                 description={recipe.description}
                                 imageUrl={recipe.imageUrl}
                                 onViewRecipe={() => openRecipeModal(recipe)}
                                 isFavorite={favorites.some(fav => fav.title === recipe.title)}
-                                onAddToFavorites={toggleFavorite} 
+                                onAddToFavorites={toggleFavorite}
                             />
                         ))}
                     </div>
                 } />
             </Routes>
             <Footer />
+            {isModalOpen && (
+                <RecipeModal
+                    recipe={selectedRecipe}
+                    onClose={closeRecipeModal}
+                />
+            )}
         </>
     );
 }
