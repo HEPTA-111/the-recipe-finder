@@ -12,6 +12,8 @@ function App() {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [favorites, setFavorites] = useState<Recipe[]>([]);
+    const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
     const fetchRandomRecipe = async () => {
         const NUM_RECIPES = 7;
@@ -35,7 +37,8 @@ function App() {
                 return {
                     title: meal.strMeal,
                     description: meal.strInstructions.substring(0, 150) + '...',
-                    imageUrl: meal.strMealThumb
+                    imageUrl: meal.strMealThumb,
+                    id: meal.idMeal
                 };
             }).filter((recipe): recipe is Recipe => recipe !== null);
             setRecipes(newRecipes);
@@ -62,6 +65,16 @@ function App() {
         });
     };
 
+    const openRecipeModal = (recipe: Recipe) => {
+        setSelectedRecipe(recipe);
+        setIsModalOpen(true);
+    }
+
+    const closeRecipeModal = () => {
+        setSelectedRecipe(null);
+        setIsModalOpen(false);
+    }
+ 
 
 
     return (
@@ -78,7 +91,8 @@ function App() {
                                 title={recipe.title}
                                 description={recipe.description}
                                 imageUrl={recipe.imageUrl}
-                                onViewRecipe={() => console.log(`View ${recipe.title}`)}
+                                onViewRecipe={() => openRecipeModal(recipe)}
+                                isFavorite={favorites.some(fav => fav.title === recipe.title)}
                                 onAddToFavorites={toggleFavorite} 
                             />
                         ))}
