@@ -1,11 +1,10 @@
-// src/App.tsx
 import Header from "./components/Header.tsx";
 import RecipeItem from "./components/RecipeItem.tsx";
 import Footer from "./components/Footer.tsx";
 import { Route, Routes } from "react-router-dom";
 import Favorites from "./components/Favorites.tsx";
 import { useState, useEffect } from "react";
-import type { Recipe, RawMealData } from "./types.ts"; // Added RawMealData import
+import type { Recipe, RawMealData } from "./types.ts"; 
 import { RecipeModal } from "./components/RecipeModal.tsx";
 
 
@@ -102,7 +101,7 @@ function App() {
 
     const toggleFavorite = (recipe: Recipe) => {
         setFavorites((prevFavorites) => {
-            const isFavorite = prevFavorites.some(fav => fav.id === recipe.id); // Use ID for uniqueness
+            const isFavorite = prevFavorites.some(fav => fav.id === recipe.id); 
             if (isFavorite) {
                 return prevFavorites.filter(fav => fav.id !== recipe.id);
             }
@@ -145,12 +144,12 @@ function App() {
                         {recipes.map((recipe) => (
                             <RecipeItem
                                 recipe={recipe}
-                                key={recipe.id} // Use ID as key for best practice
+                                key={recipe.id} 
                                 title={recipe.title}
                                 description={recipe.description}
                                 imageUrl={recipe.imageUrl}
                                 onViewRecipe={() => openRecipeModal(recipe)}
-                                isFavorite={favorites.some(fav => fav.id === recipe.id)} // Use ID for uniqueness
+                                isFavorite={favorites.some(fav => fav.id === recipe.id)}
                                 onAddToFavorites={toggleFavorite}
                             />
                         ))}
