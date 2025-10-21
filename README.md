@@ -1,8 +1,11 @@
-# 🍲 The Recipe Finder
+# The Recipe Finder
 
 A responsive web application built with React and TypeScript for searching, viewing, and saving favorite meal recipes using The Meal DB API.
 
 ---
+
+<img width="1094" height="1275" alt="image" src="https://github.com/user-attachments/assets/47dd8137-277a-4e9b-9d97-4b9cad6d9b5a" />
+
 
 ## Features
 
