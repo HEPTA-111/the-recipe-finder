@@ -57,7 +57,7 @@ body {
 .nav-links {
     display: flex;
     justify-content: center;
-    gap: 25px; /* Increased gap for modern spacing */
+    gap: 25px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
@@ -225,7 +225,7 @@ body {
     background-color: #045a17;
 }
 
-/* Icon class for integration (e.g., if you use Font Awesome) */
+
 .btn .icon {
     margin-right: 8px;
     font-size: 1.1em;
