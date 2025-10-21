@@ -1,10 +1,11 @@
+// src/App.tsx
 import Header from "./components/Header.tsx";
 import RecipeItem from "./components/RecipeItem.tsx";
 import Footer from "./components/Footer.tsx";
 import { Route, Routes } from "react-router-dom";
 import Favorites from "./components/Favorites.tsx";
 import { useState, useEffect } from "react";
-import type { Recipe } from "./types.ts";
+import type { Recipe, RawMealData } from "./types.ts"; // Added RawMealData import
 import { RecipeModal } from "./components/RecipeModal.tsx";
 
 
@@ -12,12 +13,27 @@ const API_URL = "https://www.themealdb.com/api/json/v1/1/random.php";
 
 function App() {
 
+    // --- State Declarations ---
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
+    // --- Persistence: Lazy State Initialization ---
+    const [favorites, setFavorites] = useState<Recipe[]>(() => {
+        const savedFavorites = localStorage.getItem('recipeFavorites');
+        if (savedFavorites) {
+            return JSON.parse(savedFavorites);
+        }
+        return [];
+    });
 
+    // --- Persistence: Synchronization ---
+    useEffect(() => {
+        localStorage.setItem('recipeFavorites', JSON.stringify(favorites));
+    }, [favorites]);
+
+    // --- API & Core Functions ---
     const fetchRandomRecipe = async () => {
         const NUM_RECIPES = 7;
         const fetchPromises = [];
@@ -31,7 +47,7 @@ function App() {
             const allData = await Promise.all(dataPromises);
 
             const newRecipes: Recipe[] = allData.map(data => {
-                const meal = data.meals ? data.meals[0] : null;
+                const meal: RawMealData = data.meals ? data.meals[0] : null;
 
                 if (!meal) return null;
 
@@ -50,32 +66,6 @@ function App() {
         }
     };
 
-    useEffect(() => {
-        fetchRandomRecipe();
-    }, []);
-
-    const toggleFavorite = (recipe: Recipe) => {
-        setFavorites((prevFavorites) => {
-            const isFavorite = prevFavorites.some(fav => fav.title === recipe.title);
-            if (isFavorite) {
-                return prevFavorites.filter(fav => fav.title !== recipe.title);
-            }
-            else {
-                return [...prevFavorites, recipe];
-            }
-        });
-    };
-
-    const openRecipeModal = (recipe: Recipe) => {
-        setSelectedRecipe(recipe);
-        setIsModalOpen(true);
-    }
-
-    const closeRecipeModal = () => {
-        setSelectedRecipe(null);
-        setIsModalOpen(false);
-    }
-
     const executeSearch = async () => {
         if (!searchTerm.trim()) {
             alert("Please enter a recipe name to search.");
@@ -88,9 +78,9 @@ function App() {
             const response = await fetch(SEARCH_URL);
             const data = await response.json();
 
-            const rawMeals = data.meals || [];
+            const rawMeals: RawMealData[] = data.meals || [];
 
-            const newRecipes: Recipe[] = rawMeals.map((meal: any) => {
+            const newRecipes: Recipe[] = rawMeals.map((meal) => {
                 return {
                     title: meal.strMeal,
                     description: meal.strInstructions.substring(0, 150) + '...',
@@ -110,40 +100,57 @@ function App() {
         }
     };
 
-    const [favorites, setFavorites] = useState<Recipe[]>(() => {
-        const savedFavorites = localStorage.getItem('recipeFavorites');
+    const toggleFavorite = (recipe: Recipe) => {
+        setFavorites((prevFavorites) => {
+            const isFavorite = prevFavorites.some(fav => fav.id === recipe.id); // Use ID for uniqueness
+            if (isFavorite) {
+                return prevFavorites.filter(fav => fav.id !== recipe.id);
+            }
+            else {
+                return [...prevFavorites, recipe];
+            }
+        });
+    };
 
-        if (savedFavorites) {
-            // Data exists: parse the string back to a Recipe[] array
-            return JSON.parse(savedFavorites);
-        }
+    const openRecipeModal = (recipe: Recipe) => {
+        setSelectedRecipe(recipe);
+        setIsModalOpen(true);
+    }
 
-        // No data: return the default initial value
-        return [];
-    });
+    const closeRecipeModal = () => {
+        setSelectedRecipe(null);
+        setIsModalOpen(false);
+    }
 
     useEffect(() => {
-        // Save favorites to localStorage whenever it changes
-        localStorage.setItem('recipeFavorites', JSON.stringify(favorites));
-    }, [favorites]);
-
+        fetchRandomRecipe();
+    }, []);
+    
 
     return (
         <>
             <Header onSearchChange={setSearchTerm} onSearchSubmit={executeSearch} />
             <Routes>
-                <Route path="/favorites" element={<Favorites favoritesList={favorites} onToggleFavorite={toggleFavorite} />} />
+                {/* Favorites Route: Passed openRecipeModal function */}
+                <Route 
+                    path="/favorites" 
+                    element={<Favorites 
+                        favoritesList={favorites} 
+                        onToggleFavorite={toggleFavorite} 
+                        onViewRecipe={openRecipeModal} 
+                    />} 
+                />
                 <Route path="/" element={
                     <div className="recipe-list">
                         {recipes.map((recipe) => (
                             <RecipeItem
                                 recipe={recipe}
-                                key={recipe.title}
+                                key={recipe.id} // Use ID as key for best practice
                                 title={recipe.title}
                                 description={recipe.description}
                                 imageUrl={recipe.imageUrl}
                                 onViewRecipe={() => openRecipeModal(recipe)}
-                                isFavorite={favorites.some(fav => fav.title === recipe.title)}
+                                isFavorite={favorites.some(fav => fav.id === recipe.id)} // Use ID for uniqueness
                                 onAddToFavorites={toggleFavorite}
                             />
                         ))}
